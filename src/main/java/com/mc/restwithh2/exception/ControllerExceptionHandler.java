@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @RestControllerAdvice
 public class ControllerExceptionHandler {
@@ -29,6 +28,18 @@ public class ControllerExceptionHandler {
     public ErrorMessage globalExceptionHandler(Exception ex, WebRequest request) {
         ErrorMessage message = new ErrorMessage(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                LocalDateTime.now(),
+                ex.getMessage(),
+                request.getDescription(false));
+
+        return message;
+    }
+
+    @ExceptionHandler(EmailTakenException.class)
+    @ResponseStatus(value = HttpStatus.CONFLICT)
+    public ErrorMessage emailTakenExceptionHandler(EmailTakenException ex, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.CONFLICT.value(),
                 LocalDateTime.now(),
                 ex.getMessage(),
                 request.getDescription(false));
