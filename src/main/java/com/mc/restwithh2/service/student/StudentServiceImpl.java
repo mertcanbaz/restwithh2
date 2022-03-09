@@ -4,10 +4,7 @@ import com.mc.restwithh2.entity.Student;
 import com.mc.restwithh2.exception.EmailTakenException;
 import com.mc.restwithh2.exception.ResourceNotFoundException;
 import com.mc.restwithh2.repository.StudentRepository;
-import com.mc.restwithh2.service.student.StudentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -15,14 +12,18 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
 
+    public StudentServiceImpl(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
+
     @Override
     public Optional<Student> findById(Long id) {
-        return studentRepository.findStudentById(id);
+        return studentRepository.findById(id);
     }
 
     @Override

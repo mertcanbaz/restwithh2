@@ -12,7 +12,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     List<Student> findAll();
 
-    Optional<Student> findStudentById(Long id);
+    Optional<Student> findById(Long id);
 
     Optional<Student> findStudentByEmail(String email);
 

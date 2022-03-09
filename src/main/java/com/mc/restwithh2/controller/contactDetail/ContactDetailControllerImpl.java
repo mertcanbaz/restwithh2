@@ -11,9 +11,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class ContactDetailControllerImpl implements ContactDetailController {
     private final ContactDetailService contactDetailService;
+
+    public ContactDetailControllerImpl(ContactDetailService contactDetailService) {
+        this.contactDetailService = contactDetailService;
+    }
 
     @GetMapping("/contactDetails")
     public List<ContactDetail> getContactDetails() {
