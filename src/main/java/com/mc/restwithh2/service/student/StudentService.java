@@ -1,6 +1,7 @@
 package com.mc.restwithh2.service.student;
 
 import com.mc.restwithh2.entity.Student;
+import com.mc.restwithh2.exception.EmailTakenException;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;

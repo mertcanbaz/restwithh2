@@ -62,7 +62,7 @@ public class ContactDetailServiceImpl implements ContactDetailService {
     public void updateContactDetail(Long contactDetailId, ContactDetail contactDetail) {
 
         ContactDetail contactDetailCheck = contactDetailRepository.findById(contactDetailId).orElseThrow(() ->
-                new ResourceNotFoundException("Lesson with id : " + contactDetailId + " does not exists"));
+                new ResourceNotFoundException("Contact Detail with id : " + contactDetailId + " does not exists"));
 
         contactDetailCheck.setType(contactDetail.getType());
         contactDetailCheck.setDesc(contactDetail.getDesc());

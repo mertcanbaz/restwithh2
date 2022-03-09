@@ -1,6 +1,7 @@
 package com.mc.restwithh2.service.student;
 
 import com.mc.restwithh2.entity.Student;
+import com.mc.restwithh2.exception.EmailTakenException;
 import com.mc.restwithh2.exception.ResourceNotFoundException;
 import com.mc.restwithh2.repository.StudentRepository;
 import com.mc.restwithh2.service.student.StudentService;
@@ -39,7 +40,7 @@ public class StudentServiceImpl implements StudentService {
 
         Optional<Student> studentByGivenEmail = studentRepository.findStudentByEmail(student.getEmail());
         if (studentByGivenEmail.isPresent()) {
-            throw new ResourceNotFoundException("email is taken");
+            throw new EmailTakenException("Email " + student.getEmail() + "is taken!");
         }
 
         studentRepository.save(student);
