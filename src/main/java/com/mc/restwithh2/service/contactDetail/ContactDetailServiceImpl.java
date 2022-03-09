@@ -13,10 +13,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class ContactDetailServiceImpl implements ContactDetailService {
     private final StudentService studentService;
     private final ContactDetailRepository contactDetailRepository;
+
+    public ContactDetailServiceImpl(StudentService studentService, ContactDetailRepository contactDetailRepository) {
+        this.studentService = studentService;
+        this.contactDetailRepository = contactDetailRepository;
+    }
 
     @Override
     public List<ContactDetail> getContactDetails() {
