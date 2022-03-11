@@ -25,6 +25,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public boolean existById(Long id) {
+        return studentRepository.existsById(id);
+    }
+
+    @Override
     public Optional<Student> findById(Long id) {
         return studentRepository.findById(id);
     }
@@ -34,10 +39,10 @@ public class StudentServiceImpl implements StudentService {
         return Optional.ofNullable(studentMapper.entityListToDtoList(studentRepository.findAll()));
     }
 
-    @Override
-    public void saveAllStudents(List<StudentDto> studentDtoList) {
-        studentRepository.saveAllAndFlush(studentMapper.dtoListToEntityList(studentDtoList));
-    }
+//    @Override
+//    public void saveAllStudents(List<StudentDto> studentDtoList) {
+//        studentRepository.saveAllAndFlush(studentMapper.dtoListToEntityList(studentDtoList));
+//    }
 
     @Override
     public void addStudent(StudentDto studentDto) {
@@ -59,8 +64,9 @@ public class StudentServiceImpl implements StudentService {
             throw new ResourceNotFoundException("student with id : " + studentId + " does not exists");
         }
 
-        studentDto.setId(studentId);
-        studentRepository.save(studentMapper.dtoToEntity(studentDto));
+        Student studentToUpdate = studentMapper.dtoToEntity(studentDto);
+        studentToUpdate.setId(studentId);
+        studentRepository.save(studentToUpdate);
     }
 
     @Override

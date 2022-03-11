@@ -26,9 +26,9 @@ public interface ContactDetailController {
     @ApiOperation(value = "saves contact detail by studentId")
     ResponseEntity<Object> saveContactDetail(@PathVariable Long studentId, @RequestBody ContactDetailDto contactDetailDto);
 
-    @PutMapping("/contactDetails/{contactDetailId}")
+    @PutMapping("/students/{studentId}/contactDetails/{contactDetailId}")
     @ApiOperation(value = "updates contact detail by contactDetailId")
-    ResponseEntity<Object> updateContactDetail(@PathVariable Long contactDetailId, @RequestBody ContactDetailDto contactDetailDto);
+    ResponseEntity<Object> updateContactDetail(@PathVariable Long studentId, @PathVariable Long contactDetailId, @RequestBody ContactDetailDto contactDetailDto);
 
     @DeleteMapping("/contactDetails/{contactDetailId}")
     @ApiOperation(value = "deletes contact detail by contactDetailId")

@@ -8,11 +8,13 @@ import java.util.Optional;
 
 public interface StudentService {
 
+    boolean existById(Long id);
+
     Optional<Student> findById(Long id);
 
     Optional<List<StudentDto>> getStudents();
 
-    void saveAllStudents(List<StudentDto> studentDtoList);
+//    void saveAllStudents(List<StudentDto> studentDtoList);
 
     void addStudent(StudentDto studentDto);
 

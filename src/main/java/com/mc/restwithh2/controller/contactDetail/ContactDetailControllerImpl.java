@@ -31,8 +31,8 @@ public class ContactDetailControllerImpl implements ContactDetailController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    public ResponseEntity<Object> updateContactDetail(@PathVariable Long contactDetailId, @RequestBody ContactDetailDto contactDetailDto) {
-        contactDetailService.updateContactDetail(contactDetailId, contactDetailDto);
+    public ResponseEntity<Object> updateContactDetail(@PathVariable Long studentId, @PathVariable Long contactDetailId, @RequestBody ContactDetailDto contactDetailDto) {
+        contactDetailService.updateContactDetail(studentId, contactDetailId, contactDetailDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -10,11 +10,12 @@ public interface ContactDetailService {
 
     List<ContactDetailDto> getContactDetailsByStudentId(Long studentId);
 
-    void saveAllContactDetails(List<ContactDetailDto> contactDetailDtoList);
+//    void saveAllContactDetails(List<ContactDetailDto> contactDetailDtoList);
 
     void addContactDetail(Long studentId, ContactDetailDto contactDetailDto);
 
+    void updateContactDetail(Long studentId, Long contactDetailId, ContactDetailDto contactDetailDto);
+
     void deleteContactDetail(Long contactDetailId);
 
-    void updateContactDetail(Long contactDetailId, ContactDetailDto contactDetailDto);
 }
