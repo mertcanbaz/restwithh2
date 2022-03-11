@@ -3,7 +3,6 @@ package com.mc.restwithh2.entity;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.List;
 
 @Entity
 @Table(name = "student")

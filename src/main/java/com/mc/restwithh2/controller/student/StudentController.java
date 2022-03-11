@@ -1,5 +1,6 @@
 package com.mc.restwithh2.controller.student;
 
+import com.mc.restwithh2.dto.StudentDto;
 import com.mc.restwithh2.entity.Student;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -16,7 +17,7 @@ public interface StudentController {
 
     @GetMapping
     @ApiOperation(value="retuns all students")
-    List<Student> getStudents();
+    Optional<List<StudentDto>> getStudents();
 
     @GetMapping("/{studentId}")
     @ApiOperation(value="returns student by studentId")
@@ -24,11 +25,11 @@ public interface StudentController {
 
     @PostMapping
     @ApiOperation(value="saves student")
-    ResponseEntity<Object> saveStudent(@RequestBody Student student);
+    ResponseEntity<Object> saveStudent(@RequestBody StudentDto studentDto);
 
     @PutMapping("/{studentId}")
     @ApiOperation(value="updates student by studentId")
-    ResponseEntity<Object> updateStudent(@PathVariable Long studentId, @RequestBody Student student);
+    ResponseEntity<Object> updateStudent(@PathVariable Long studentId, @RequestBody StudentDto studentDto);
 
     @DeleteMapping("/{studentId}")
     @ApiOperation(value="deletes student by studentId")

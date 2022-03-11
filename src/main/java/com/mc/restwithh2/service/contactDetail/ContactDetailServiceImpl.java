@@ -1,11 +1,13 @@
 package com.mc.restwithh2.service.contactDetail;
 
+import com.mc.restwithh2.dto.ContactDetailDto;
 import com.mc.restwithh2.entity.ContactDetail;
 import com.mc.restwithh2.entity.Student;
 import com.mc.restwithh2.exception.ResourceNotFoundException;
 import com.mc.restwithh2.repository.ContactDetailRepository;
 import com.mc.restwithh2.service.student.StudentService;
-import lombok.RequiredArgsConstructor;
+import com.mc.restwithh2.mapper.ContactDetailMapper;
+import com.mc.restwithh2.mapper.StudentMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -17,38 +19,40 @@ import java.util.Optional;
 public class ContactDetailServiceImpl implements ContactDetailService {
     private final StudentService studentService;
     private final ContactDetailRepository contactDetailRepository;
+    private final ContactDetailMapper contactDetailMapper;
+    private final StudentMapper studentMapper;
 
-    public ContactDetailServiceImpl(StudentService studentService, ContactDetailRepository contactDetailRepository) {
+    public ContactDetailServiceImpl(StudentService studentService, ContactDetailRepository contactDetailRepository, ContactDetailMapper contactDetailMapper, StudentMapper studentMapper) {
         this.studentService = studentService;
         this.contactDetailRepository = contactDetailRepository;
+        this.contactDetailMapper = contactDetailMapper;
+        this.studentMapper = studentMapper;
     }
 
     @Override
-    public List<ContactDetail> getContactDetails() {
-        return contactDetailRepository.findAll();
+    public Optional<List<ContactDetailDto>> getContactDetails() {
+        return Optional.ofNullable(contactDetailMapper.entityListToDtoList(contactDetailRepository.findAll()));
     }
 
     @Override
-    public List<ContactDetail> getContactDetailsByStudentId(Long studentId) {
-        return contactDetailRepository.findAllByStudentId(studentId);
+    public List<ContactDetailDto> getContactDetailsByStudentId(Long studentId) {
+        return contactDetailMapper.entityListToDtoList(contactDetailRepository.findAllByStudentId(studentId));
     }
 
     @Override
-    public void saveAllContactDetails(List<ContactDetail> contactDetailList) {
-        contactDetailRepository.saveAll(contactDetailList);
+    public void saveAllContactDetails(List<ContactDetailDto> contactDetailDtoList) {
+        contactDetailRepository.saveAll(contactDetailMapper.dtoListToEntityList(contactDetailDtoList));
     }
 
     @Override
-    public void addContactDetail(Long studentId, ContactDetail contactDetail) {
+    public void addContactDetail(Long studentId, ContactDetailDto contactDetailDto) {
 
         Optional<Student> studentCheck = studentService.findById(studentId);
         if (!studentCheck.isPresent()) {
             throw new ResourceNotFoundException("Not found Student with id = " + studentId);
         }
-
-        contactDetail.setStudent(studentCheck.get());
-
-        contactDetailRepository.save(contactDetail);
+        //should we set student to contactDetail ?
+        contactDetailRepository.save(contactDetailMapper.dtoToEntity(contactDetailDto));
     }
 
     @Override
@@ -64,15 +68,14 @@ public class ContactDetailServiceImpl implements ContactDetailService {
 
     @Override
     @Transactional
-    public void updateContactDetail(Long contactDetailId, ContactDetail contactDetail) {
+    public void updateContactDetail(Long contactDetailId, ContactDetailDto contactDetailDto) {
 
-        ContactDetail contactDetailCheck = contactDetailRepository.findById(contactDetailId).orElseThrow(() ->
-                new ResourceNotFoundException("Contact Detail with id : " + contactDetailId + " does not exists"));
+        boolean exists = contactDetailRepository.existsById(contactDetailId);
+        if(!exists){
+            throw new ResourceNotFoundException("Contact Detail with id : " + contactDetailId + " does not exists");
+        }
 
-        contactDetailCheck.setType(contactDetail.getType());
-        contactDetailCheck.setDesc(contactDetail.getDesc());
-        contactDetailCheck.setStudent(contactDetail.getStudent());
-
-        contactDetailRepository.save(contactDetailCheck);
+        contactDetailDto.setId(contactDetailId);
+        contactDetailRepository.save(contactDetailMapper.dtoToEntity(contactDetailDto));
     }
 }

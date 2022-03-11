@@ -4,7 +4,7 @@ public class ContactDetailDto {
     Long id;
     String type;
     String desc;
-    StudentDto studentDto;
+    StudentDto student;
 
     public Long getId() {
         return id;
@@ -30,11 +30,11 @@ public class ContactDetailDto {
         this.desc = desc;
     }
 
-    public StudentDto getStudentDto() {
-        return studentDto;
+    public StudentDto getStudent() {
+        return student;
     }
 
-    public void setStudentDto(StudentDto studentDto) {
-        this.studentDto = studentDto;
+    public void setStudent(StudentDto student) {
+        this.student = student;
     }
 }

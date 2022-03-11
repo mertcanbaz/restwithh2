@@ -2,21 +2,20 @@ package com.mc.restwithh2.config;
 
 import com.mc.restwithh2.entity.ContactDetail;
 import com.mc.restwithh2.entity.Student;
-import com.mc.restwithh2.service.contactDetail.ContactDetailService;
-import com.mc.restwithh2.service.student.StudentService;
+import com.mc.restwithh2.repository.ContactDetailRepository;
+import com.mc.restwithh2.repository.StudentRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.List;
 
 @Configuration
 public class Config {
 
     @Bean
-    CommandLineRunner commandLineRunner(StudentService studentService, ContactDetailService contactDetailService) {
+    CommandLineRunner commandLineRunner(StudentRepository studentRepository, ContactDetailRepository contactDetailRepository) {
         return args -> {
 
             Student student1 = new Student(
@@ -31,7 +30,8 @@ public class Config {
                             Month.SEPTEMBER,
                             27));
 
-            studentService.saveAllStudents(List.of(student1, student2));
+            studentRepository.save(student1);
+            studentRepository.save(student2);
 
             ContactDetail erenContactDetail1 = new ContactDetail("Telefon", "+903121112233");
             ContactDetail erenContactDetail2 = new ContactDetail("Faks", "+903124445566");
@@ -41,8 +41,9 @@ public class Config {
             erenContactDetail2.setStudent(student1);
             kucukContactDetail.setStudent(student2);
 
-            contactDetailService.saveAllContactDetails(List.of(erenContactDetail1, erenContactDetail2, kucukContactDetail));
-
+            contactDetailRepository.save(erenContactDetail1);
+            contactDetailRepository.save(erenContactDetail2);
+            contactDetailRepository.save(kucukContactDetail);
         };
     }
 }
