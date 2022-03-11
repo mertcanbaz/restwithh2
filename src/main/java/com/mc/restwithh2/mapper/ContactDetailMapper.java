@@ -11,6 +11,6 @@ public abstract class ContactDetailMapper {
     public abstract ContactDetail dtoToEntity(ContactDetailDto ContactDetailDto);
     public abstract ContactDetailDto entityToDto(ContactDetail contactDetail);
 
-//    public abstract List<ContactDetail> dtoListToEntityList(List<ContactDetailDto> ContactDetailDtoList);
-//    public abstract List<ContactDetailDto> entityListToDtoList(List<ContactDetail> ContactDetailList);
+    public abstract List<ContactDetail> dtoListToEntityList(List<ContactDetailDto> ContactDetailDtoList);
+    public abstract List<ContactDetailDto> entityListToDtoList(List<ContactDetail> ContactDetailList);
 }

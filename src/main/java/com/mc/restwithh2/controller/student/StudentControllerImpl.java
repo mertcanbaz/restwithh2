@@ -1,5 +1,6 @@
 package com.mc.restwithh2.controller.student;
 
+import com.mc.restwithh2.dto.StudentDto;
 import com.mc.restwithh2.entity.Student;
 import com.mc.restwithh2.service.student.StudentService;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class StudentControllerImpl implements StudentController{
     }
 
     @GetMapping
-    public List<Student> getStudents() {
+    public Optional<List<StudentDto>> getStudents() {
         return studentService.getStudents();
     }
 
@@ -29,14 +30,14 @@ public class StudentControllerImpl implements StudentController{
     }
 
     @PostMapping
-    public ResponseEntity<Object> saveStudent(@RequestBody Student student) {
-        studentService.addStudent(student);
+    public ResponseEntity<Object> saveStudent(@RequestBody StudentDto studentDto) {
+        studentService.addStudent(studentDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/{studentId}")
-    public ResponseEntity<Object> updateStudent(@PathVariable Long studentId, @RequestBody Student student) {
-        studentService.updateStudent(studentId, student);
+    public ResponseEntity<Object> updateStudent(@PathVariable Long studentId, @RequestBody StudentDto studentDto) {
+        studentService.updateStudent(studentId, studentDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

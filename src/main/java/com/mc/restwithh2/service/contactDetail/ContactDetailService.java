@@ -1,19 +1,20 @@
 package com.mc.restwithh2.service.contactDetail;
 
-import com.mc.restwithh2.entity.ContactDetail;
+import com.mc.restwithh2.dto.ContactDetailDto;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ContactDetailService {
-    List<ContactDetail> getContactDetails();
+    Optional<List<ContactDetailDto>> getContactDetails();
 
-    List<ContactDetail> getContactDetailsByStudentId(Long studentId);
+    List<ContactDetailDto> getContactDetailsByStudentId(Long studentId);
 
-    void saveAllContactDetails(List<ContactDetail> contactDetailList);
+    void saveAllContactDetails(List<ContactDetailDto> contactDetailDtoList);
 
-    void addContactDetail(Long studentId, ContactDetail contactDetail);
+    void addContactDetail(Long studentId, ContactDetailDto contactDetailDto);
 
     void deleteContactDetail(Long contactDetailId);
 
-    void updateContactDetail(Long contactDetailId, ContactDetail contactDetail);
+    void updateContactDetail(Long contactDetailId, ContactDetailDto contactDetailDto);
 }
