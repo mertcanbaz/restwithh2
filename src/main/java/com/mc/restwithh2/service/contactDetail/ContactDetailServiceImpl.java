@@ -20,13 +20,11 @@ public class ContactDetailServiceImpl implements ContactDetailService {
     private final StudentService studentService;
     private final ContactDetailRepository contactDetailRepository;
     private final ContactDetailMapper contactDetailMapper;
-    private final StudentMapper studentMapper;
 
-    public ContactDetailServiceImpl(StudentService studentService, ContactDetailRepository contactDetailRepository, ContactDetailMapper contactDetailMapper, StudentMapper studentMapper) {
+    public ContactDetailServiceImpl(StudentService studentService, ContactDetailRepository contactDetailRepository, ContactDetailMapper contactDetailMapper) {
         this.studentService = studentService;
         this.contactDetailRepository = contactDetailRepository;
         this.contactDetailMapper = contactDetailMapper;
-        this.studentMapper = studentMapper;
     }
 
     @Override
@@ -39,10 +37,10 @@ public class ContactDetailServiceImpl implements ContactDetailService {
         return contactDetailMapper.entityListToDtoList(contactDetailRepository.findAllByStudentId(studentId));
     }
 
-    @Override
-    public void saveAllContactDetails(List<ContactDetailDto> contactDetailDtoList) {
-        contactDetailRepository.saveAll(contactDetailMapper.dtoListToEntityList(contactDetailDtoList));
-    }
+//    @Override
+//    public void saveAllContactDetails(List<ContactDetailDto> contactDetailDtoList) {
+//        contactDetailRepository.saveAll(contactDetailMapper.dtoListToEntityList(contactDetailDtoList));
+//    }
 
     @Override
     public void addContactDetail(Long studentId, ContactDetailDto contactDetailDto) {
@@ -51,8 +49,27 @@ public class ContactDetailServiceImpl implements ContactDetailService {
         if (!studentCheck.isPresent()) {
             throw new ResourceNotFoundException("Not found Student with id = " + studentId);
         }
-        //should we set student to contactDetail ?
         contactDetailRepository.save(contactDetailMapper.dtoToEntity(contactDetailDto));
+    }
+
+    @Override
+    @Transactional
+    public void updateContactDetail(Long studentId, Long contactDetailId, ContactDetailDto contactDetailDto) {
+
+        Optional<Student> studentCheck = studentService.findById(studentId);
+        if(!studentCheck.isPresent()){
+            throw new ResourceNotFoundException("Student with id : " + studentId + " does not exists");
+        }
+
+        Optional<ContactDetail> contactDetailCheck = contactDetailRepository.findById(contactDetailId);
+        if(!contactDetailCheck.isPresent()){
+            throw new ResourceNotFoundException("Contact Detail with id : " + contactDetailId + " does not exists");
+        }
+
+        ContactDetail contactDetailToUpdate = contactDetailMapper.dtoToEntity(contactDetailDto);
+        contactDetailToUpdate.setId(contactDetailId);
+        contactDetailToUpdate.setStudent(studentCheck.get());
+        contactDetailRepository.save(contactDetailToUpdate);
     }
 
     @Override
@@ -66,16 +83,4 @@ public class ContactDetailServiceImpl implements ContactDetailService {
         contactDetailRepository.deleteById(contactDetailId);
     }
 
-    @Override
-    @Transactional
-    public void updateContactDetail(Long contactDetailId, ContactDetailDto contactDetailDto) {
-
-        boolean exists = contactDetailRepository.existsById(contactDetailId);
-        if(!exists){
-            throw new ResourceNotFoundException("Contact Detail with id : " + contactDetailId + " does not exists");
-        }
-
-        contactDetailDto.setId(contactDetailId);
-        contactDetailRepository.save(contactDetailMapper.dtoToEntity(contactDetailDto));
-    }
 }
